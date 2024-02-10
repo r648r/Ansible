@@ -17,7 +17,7 @@ exit
 exit
 y
 
-no snmp-server community "Alpn74" operator
+no snmp-server community "Alpionos" operator
 no snmp-server community "qsdfqsdf" operator
 snmp-server location "Perpignan"
 
@@ -37,10 +37,10 @@ show crypto client-public-key
 # ============================================================== #
 conf t
 
-no snmp-server community Alpn74
-no snmp-server user sshuser
-no snmp-server user rancid
-no snmp-server user raph
+no snmp-server community <snmp-com>
+no snmp-server user user1
+no snmp-server user user2
+no snmp-server user user3
 no logging event link-status default
 
 no username raph
@@ -109,13 +109,6 @@ cowsay "la clef public a été recupéré directement dans le répertoire suivan
 
 
 Conffig que je doit deployer en role ansible 
-snmp-server location "Chavanod, France"
-snmp-server user admin network-admin auth md5 0x7598a94cbcf2861efee882cfb3737cc6 priv 0x7
-598a94cbcf2861efee882cfb3737cc6 localizedkey
-snmp-server user hugues network-admin 
-snmp-server user rancid network-admin auth md5 0x5e44598ac9929261da1fb1546f7f50d0 priv 0x
-5e44598ac9929261da1fb1546f7f50d0 localizedkey
-snmp-server community Alpn74 group network-operator
 
 sudo apt update
 sudo apt install -y nginx
@@ -132,8 +125,8 @@ int 32
 untagged v 6
 exit
 int vlan 6 
-ip add 10.100.40.221 255.255.255.0
+ip add 10.200.80.221 255.255.255.0
 exit
-ip default-g 10.100.40.1
+ip default-g 10.200.80.1
 ip ssh 
 password manager plaintext

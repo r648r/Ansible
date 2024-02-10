@@ -2,8 +2,8 @@
 hpProCurve:
   hosts:
     hp-1:
-      ansible_host: 10.100.40.222
+      ansible_host: 10.200.80.222
     hp-2:
-      ansible_host: 10.100.40.224
+      ansible_host: 10.200.80.224
     ProCurve:
-      ansible_host: 10.100.40.221
+      ansible_host: 10.200.80.221

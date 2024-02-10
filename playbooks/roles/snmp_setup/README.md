@@ -27,7 +27,7 @@ This role includes the following tasks:
 ### community.yaml
 
 - Replace SNMP configuration by defining a community and its group.
-- Use the community "Alpn74" with the "network-operator" group.
+- Use the community "<nsmp-com>" with the "network-operator" group.
 
 ### main.yaml
 

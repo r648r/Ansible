@@ -93,11 +93,11 @@ export OPENAI_API_KEY=token
 ─ log
   ├── netmikli.log
   ├── session
-  │   ├── hp_procurve_10.100.40.222.log
-  │   └── hp_procurve_10.100.40.224.log
+  │   ├── hp_procurve_10.200.80.222.log
+  │   └── hp_procurve_10.200.80.224.log
   └── show_run
-      ├── show_run_10.100.40.222
-      └── show_run_10.100.40.224
+      ├── show_run_10.200.80.222
+      └── show_run_10.200.80.224
 ```
 
 L'organisation des fichiers log pour ce module Ansible est structurée de manière à faciliter la compréhension et le débogage de tout problème qui pourrait survenir lors de l'exécution du module. Voici une brève explication de chaque fichier log :

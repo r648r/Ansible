@@ -6,7 +6,7 @@
     state: replaced
     config:
       communities:
-        - community: Alpn74
+        - community: Hello
           group: network-operator
 
 - name: Setup SNMP community (HP ProCurve)
@@ -19,4 +19,4 @@
 
     commands:
       - snmp-server enable
-      - snmp-server community "Alpn74"
+      - snmp-server community "Hello"

@@ -6,7 +6,7 @@ hostname "ProCurve-milliboo"
 module 1 type j9147a
 trunk 45-48 trk10 lacp
 no telnet-server
-ip default-gateway 10.100.40.1
+ip default-gateway 10.200.80.1
 ip ssh filetransfer
 ip ssh port 5234
 {% for interface in interfaces %}
@@ -40,7 +40,7 @@ interface {{ port_channel.name }}
    {% endfor %}
 {% endfor %}
 snmp-server community "public" unrestricted
-snmp-server community "Alpn74" operator
+snmp-server community "Apinos" operator
 snmp-server location "{{ snmp_location }}"
 aaa authentication ssh login public-key
 aaa authentication ssh enable public-key
