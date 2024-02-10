@@ -1,0 +1,9 @@
+# Playbook pour le déploiement SSH et la sauvegarde des fichiers de configuration
+---
+- name: Playbook pour le déploiement SSH
+  hosts: all
+  gather_facts: False
+
+  roles:
+    - backup_cfg
+    - ssh_deployment

@@ -1,0 +1,139 @@
+# ============================================================== #
+# ========================= HP ProCurve ======================== #
+# ============================================================== #
+
+conf t
+no ip ssh filetransfer
+ip ssh
+ip ssh port 22
+telnet server
+aaa authentication ssh login local none
+aaa authentication ssh enable local none
+clear crypto client-public-key manager
+y
+
+exit
+exit
+exit
+y
+
+no snmp-server community "Alpn74" operator
+no snmp-server community "qsdfqsdf" operator
+snmp-server location "Perpignan"
+
+conf t
+time daylight-time-rule western-europe
+time timezone 60
+timesync sntp
+sntp unicast
+sntp server priority 1 51.38.81.135
+
+ansible-playbook -i inventory/network/switch/hp playbooks/SSH_public_key.yaml --vault-password-file /etc/vault.txt
+
+show crypto client-public-key
+
+# ============================================================== #
+# ============================ NX-OS =========================== #
+# ============================================================== #
+conf t
+
+no snmp-server community Alpn74
+no snmp-server user sshuser
+no snmp-server user rancid
+no snmp-server user raph
+no logging event link-status default
+
+no username raph
+no username jean
+
+system qos
+no service-policy type network-qos jumbo
+exit
+no policy-map type network-qos jumbo
+
+feature telnet
+no feature interface-vlan
+no feature lacp
+no feature lldp
+y
+
+no vlan 2-4093
+
+no int port-channel 10-12
+int e1/1-32
+no switchport
+no description
+switchport
+no spanning-tree bpduguard
+no spanning-tree bpdufilter
+no channel-group 
+no speed
+shutdown
+
+no spanning-tree loopguard default
+no spanning-tree vlan 10-20 root
+no spanning-tree vlan 21-30 root
+
+
+========================================
+spanning-tree loopguard default
+vrf context management
+ssh login-attempts 10
+service unsupported-transceiver
+
+interface port-channel10
+  description Core: nx1.edge.chv
+  switchport mode trunk
+  switchport trunk allowed vlan 1-2000
+  speed 10000
+
+==========================================
+
+==========================================
+
+ansible-playbook -i inventory/network/switch/cisco/hosts.yaml playbooks/test_con_ssh.yaml  --vault-password-file /etc/vault.txt
+
+# ============================================================== #
+# ========================== BACKUP ============================ #
+# ============================================================== #
+
+cowsay "Exemple d'utilisation de netmikli : Deploiment de clef publique sur HP ProCurve"
+
+cowsay "L'authentification se fait actuellement par mot de passe : "
+
+cowsay "Il ni a pas de clef public client dans le switch (commande show crypto client-public-key)"
+
+cowsay "Nous allons maintenant installer le module"
+
+cowsay "la clef public a été recupéré directement dans le répertoire suivant ~/.ssh/id_rsa.pub"
+
+
+Conffig que je doit deployer en role ansible 
+snmp-server location "Chavanod, France"
+snmp-server user admin network-admin auth md5 0x7598a94cbcf2861efee882cfb3737cc6 priv 0x7
+598a94cbcf2861efee882cfb3737cc6 localizedkey
+snmp-server user hugues network-admin 
+snmp-server user rancid network-admin auth md5 0x5e44598ac9929261da1fb1546f7f50d0 priv 0x
+5e44598ac9929261da1fb1546f7f50d0 localizedkey
+snmp-server community Alpn74 group network-operator
+
+sudo apt update
+sudo apt install -y nginx
+
+su root
+adduser code sudo 
+
+ansible-galaxy init role
+
+conf t
+int vlan 6 
+exit
+int 32
+untagged v 6
+exit
+int vlan 6 
+ip add 10.100.40.221 255.255.255.0
+exit
+ip default-g 10.100.40.1
+ip ssh 
+password manager plaintext

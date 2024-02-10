@@ -1,0 +1,21 @@
+---
+- name: Disable Telnet (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_feature:
+    feature: telnet
+    state: disabled
+
+
+- name: Disable Telnet (HP ProCurve)
+  when: ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+    
+    HP_procurve_disable_telnet: True
+  register: result
+
+- debug:
+    var: result.msg

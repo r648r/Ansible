@@ -1,0 +1,89 @@
+---
+- name: Reset interface configuration for doing layer 2 command (NX-OS)
+  when: interface.mode is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - switchport
+      - no spanning-tree bpdufilter enable
+      - no spanning-tree bpduguard enable
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+#  _                 _   
+# | |_ _ _ _  _ _ _ | |__
+# |  _| '_| || | ' \| / /
+#  \__|_|  \_,_|_||_|_\_\
+                        
+- name: Configurer les interfaces en mode trunk (HP ProCurve)
+  when: interface.mode is defined and interface.mode == 'trunk' and ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: 
+      - interface {{ interface.name }}
+      - tagged vlan {{ interface.allowed_vlans }}
+
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configurer les interfaces en mode trunk (NX OS)
+  when: interface.mode is defined and interface.mode == 'trunk' and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_l2_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      trunk:
+        allowed_vlans: "{{ interface.allowed_vlans }}"
+    state: replaced
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+#  __ _ __ __ ___ ______
+# / _` / _/ _/ -_|_-<_-<
+# \__,_\__\__\___/__/__/
+
+- name: Configurer les interfaces en mode access (HP ProCurve)
+  when: interface.mode is defined and interface.mode == 'access' and ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: 
+      - interface {{ interface.name }}
+      - untagged vlan {{ interface.allowed_vlans }}
+
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configurer les interfaces en mode access (NX OS)
+  when: interface.mode is defined and interface.mode == 'access' and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_l2_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      access:
+        vlan: "{{ interface.vlan }}"
+    state: replaced
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configurer les interfaces en mode access pour les membre du CGNAT (NX OS)
+  when: interface.ipfo is defined and interface.ipfo and interface.ipfo and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_l2_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      access:
+        vlan: 1101
+    state: replaced
+  loop: "{{ customers }}"
+  loop_control:
+    loop_var: interface

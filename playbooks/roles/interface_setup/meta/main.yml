@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  role_name: feature_setup
+  author: Raphaël LECHAPPE
+  description: This Ansible role allows for the configuration of interfaces on a Cisco NX-OS network device.
+  license: MIT
+  min_ansible_version: '2.9'
+  platforms:
+    - name: NX-OS
+      versions:
+        - 5.2(1)N1(4)
+  galaxy_tags:
+    - layer 3
+    - layer 2
+    - mtu
+    - speed
+    - ip
+    - IP
+    - interface
+    - configuration
+    - cisco.nxos.nxos
+    - cisco
+    - hp
+    - NX-OS
+    - nx-os 

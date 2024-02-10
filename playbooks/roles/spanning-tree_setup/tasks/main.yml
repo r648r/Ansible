@@ -1,0 +1,6 @@
+---
+- include_tasks: STP_mode.yaml
+
+- include_tasks: STP_root_bridge.yaml
+
+- include_tasks: loopguard.yaml

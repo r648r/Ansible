@@ -1,0 +1,14 @@
+---
+- name: Apply SNMP configuration
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_snmp_server:
+    config:
+      users:
+        auth:
+          - user: "{{ item.name }}"
+            group: network-operator
+            authentication:
+              algorithm: md5
+              password: "{{ item.password }}"
+              localized_key: true
+  loop: "{{ snmp_users }}"

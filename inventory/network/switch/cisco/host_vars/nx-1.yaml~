@@ -1,0 +1,85 @@
+---
+l2_interfaces:
+# ===============================
+  - name: Port-channel10
+    description: "Core: nx1.edge.chv"
+    enable: true
+    mode: trunk
+    allowed_vlans: "1-2000"
+    speed: 10000
+# ===============================
+  - name: Ethernet1/1
+    description: "Core: Meythet [40 Gbps]"
+    enable: false
+    mode: trunk
+    allowed_vlans: "1-2000"
+# ===============================
+  - name: Ethernet1/2
+    description: "Core: PapeterieAnnecy [40 Gbps]"
+    enable: false
+    mode: trunk
+    allowed_vlans: "1-2000"
+# ===============================
+  - name: Ethernet1/3
+    description: "Core: ModuloGlaisinALV [40 Gbps]"
+    enable: false
+    mode: trunk
+    allowed_vlans: "1-2000"
+# ===============================
+  - name: Ethernet1/3
+    description: "Core: Pringy [40 Gbps]"
+    enable: false
+    mode: trunk
+    allowed_vlans: "1-2000"
+
+l3_interfaces:
+# ===============================
+  - name: Ethernet1/5
+    description: "Edge: weeee"
+    enable: true
+    mtu: 9216
+    ipv4: "10.1.1.1/24"
+    speed: 1000
+# ===============================
+  - name: Ethernet1/6
+    description: "Edge: biim"
+    enable: true
+    ipv4: "10.1.2.2/24"
+    speed: 10000
+# ===============================
+  - name: Ethernet1/7
+    description: "Edge: fatal"
+    enable: true
+    mtu: 9216
+    ipv4: "10.1.3.3/24"
+# ===============================
+
+
+port_channels:
+# ===============================
+  - name: Port-channel10
+    description: "Edge: fatal"
+    members:
+      - member: Ethernet1/8
+      - member: Ethernet1/9
+# ===============================
+  - name: Port-channel11
+    description: "Edge: fatal"
+    members:
+      - member: Ethernet1/10
+      - member: Ethernet1/11
+# ===============================
+  - name: Port-channel12
+    description: "Edge: fatal"
+    members:
+      - member: Ethernet1/15
+      - member: Ethernet1/16
+      - member: Ethernet1/17
+      - member: Ethernet1/18
+# ===============================
+
+snmp_location: "Chavanod, France"
+
+STP:
+  root: 10-20
+  root_secondary: 21-30

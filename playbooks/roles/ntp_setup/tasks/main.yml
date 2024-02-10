@@ -1,0 +1,17 @@
+---
+
+
+- name: Execute Cisco interfaces commands
+  when: ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: 
+      - time daylight-time-rule western-europe
+      - time timezone 60
+      - timesync sntp
+      - sntp unicast
+      - sntp server priority 1 77.95.64.253 

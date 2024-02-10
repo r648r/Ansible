@@ -1,0 +1,40 @@
+---
+- name: Configure description and state for each interface (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      description: "{{ interface.description }}"
+      enabled: true
+    state: merged
+  loop:  "{{ interfaces + port_channels }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configure description and state for each interface (HP ProCurve)
+  when: interface.description is defined and ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: 
+      - interface {{ interface.name }}
+      - name "{{ interface.description }}"
+
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configure description and state for each interface (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      description: "Cust : {{ interface.description }}"
+      enabled: false
+    state: merged
+  loop:  "{{ customers }}"
+  loop_control:
+    loop_var: interface

@@ -1,0 +1,25 @@
+---
+- name: Vérifier l'accessibilité SSH des hôtes
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Recuperation des variables ansible
+      setup:          
+      # Permet d'accédé a certaine varible ex : ansible_date_time
+        gather_subset:
+        - 'min'
+    
+    - name: Attendre que le port SSH soit ouvert
+      wait_for:
+        host: "{{ ansible_host }}"
+        port: 22
+        state: started
+        timeout: 5
+      delegate_to: localhost
+      ignore_errors: true
+      register: ssh_check_result
+
+    - name: Afficher le statut de l'accessibilité SSH
+      debug:
+        msg: "L'hôte {{ inventory_hostname }} est {{ 'accessible' if ssh_check_result is success else 'inaccessible' }} en SSH."

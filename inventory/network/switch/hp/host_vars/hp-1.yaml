@@ -1,0 +1,57 @@
+snmp_location: "Portmore, Jamaique"
+
+vlans:
+  - name: Management
+    id: 6
+  - name: ManagementMiliprod
+    id: 8
+  - name: MP-Prod-WAN
+    id: 11
+  - name: MP-Prod-Redis
+    id: 12
+  - name: MP-Preprod-Redis
+    id: 22
+
+interfaces:
+# ===============================
+  - name: Ethernet 2
+    description: "Core: dev"
+    shutdown: false
+    mode: trunk
+    allowed_vlans: "30,40,50"
+# ===============================
+  - name: Ethernet 3
+    description: "Core: bar"
+    shutdown: false
+    mode: trunk
+    allowed_vlans: "10,20"
+# ===============================
+  - name: Ethernet 4
+    description: "Core: sbinks"
+    shutdown: true
+    mode: access
+    allowed_vlans: 30
+# ===============================
+  - name: Ethernet 5
+    description: "Core: foo"
+    shutdown: true
+    mode: access
+    allowed_vlans: 40
+# ===============================
+  - name: Ethernet 6
+    description: "Core: brr"
+    shutdown: false
+    mode: access
+    allowed_vlans: 14
+
+port_channels:
+# ===============================
+  - name: trk10
+    description: "Edge: fatal"
+    members:
+      - member: Ethernet 30
+        speed: 100-full
+      - member: Ethernet 32
+        speed: 100-full
+      - member: Ethernet 34
+        speed: 100-full

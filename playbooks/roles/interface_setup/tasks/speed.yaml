@@ -1,0 +1,10 @@
+- name: Configure Speed for each interface (NX-OS)
+  when: interface.speed is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      speed: "{{ interface.speed }}"
+    state: merged
+  loop:  "{{ interfaces + port_channels }}"
+  loop_control:
+    loop_var: interface

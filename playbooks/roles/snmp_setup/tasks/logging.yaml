@@ -1,0 +1,28 @@
+---
+- name: Delete all logging configuration (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_logging_global:
+    state: deleted
+
+- name: Configuration des logs (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - logging event link-status default
+
+
+
+## Ce module n'as pas marcher, il n'est pas deprecated et parait fiable mais pas réussit a le faire fonctionner 
+## Possible source du probleme : sh version | i system:
+##  system:    version 5.2(1)N1(4)
+## (je n'ai peut etre pas su l'utilisé voici la meilleur de mes tentatives pour realisé cette commande : logging event link-status default)
+
+# - name: Merge the provided configuration with the existing running configuration
+#   cisco.nxos.nxos_logging_global:
+#     config:
+#       event:
+#         link_status:
+#           default: true
+#           enable: true
+#     state: overridden

@@ -1,0 +1,15 @@
+---
+- name: Configure sur les client le BPDU Filter (NX OS)
+  when: customers is defined and interface.ipfo is defined and interface.ipfo and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - switchport
+      - spanning-tree bpdufilter enable 
+      - spanning-tree bpduguard disable
+      - no cdp enable
+  loop: "{{ customers }}"
+  loop_control:
+    loop_var: interface
+

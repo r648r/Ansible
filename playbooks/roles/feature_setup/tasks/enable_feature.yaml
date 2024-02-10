@@ -1,0 +1,24 @@
+---
+- name: Enable default feature (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos' and features_nxos.enabled is defined
+  cisco.nxos.nxos_feature:
+    feature: "{{ feature }}"
+    state: enabled
+  ignore_errors: yes
+# Sur cetain switch cette feature n'est pas dispo : feature scp? % Invalid command at '^' marker.
+# Equivalent d'un try execpt
+  loop: "{{ features_nxos.enabled }}"
+  loop_control:
+    loop_var: feature
+
+- name: Enable bonus feature (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos' and features is defined
+  cisco.nxos.nxos_feature:
+    feature: "{{ feature }}"
+    state: enabled
+  ignore_errors: yes
+# Sur cetain switch cette feature n'est pas dispo : feature scp? % Invalid command at '^' marker.
+# Equivalent d'un try execpt
+  loop: "{{ features }}"
+  loop_control:
+    loop_var: feature

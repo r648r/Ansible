@@ -1,0 +1,4 @@
+{% for vlan_interface in vlans_interfaces %}
+- "interface vlan {{ vlan_interface.vlan }}"
+- "ip address {{ vlan_interface.ip }} {{ vlan_interface.netmask }}"
+{% endfor %}

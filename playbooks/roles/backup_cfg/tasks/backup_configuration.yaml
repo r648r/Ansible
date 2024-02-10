@@ -1,0 +1,19 @@
+---
+- name: Backup Configuration (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_config:
+    backup: yes
+    backup_options:
+      filename: "{{ ansible_host }}_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}.cfg"
+      dir_path: /home/ansible/Ansible-clef-publique/log/show_run/cisco
+
+- name: Backup Configuration (HP ProCurve)
+  when: ansible_network_os == 'hp.procurve'
+  register: result
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    saverunpath: /home/ansible/Ansible-clef-publique/log/show_run/hp

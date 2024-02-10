@@ -1,0 +1,4 @@
+---
+- include_tasks: retrieving_ansible_variables.yaml
+
+- include_tasks: backup_configuration.yaml

@@ -1,0 +1,5 @@
+---
+- name: Configure Cisco interfaces
+  hosts: all
+  roles:
+    - jinja_interface

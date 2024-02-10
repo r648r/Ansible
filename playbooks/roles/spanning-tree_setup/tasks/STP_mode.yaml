@@ -1,0 +1,7 @@
+---
+- name: Configure spanning-tree mode (NX-OS)
+  when: mode is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "spanning-tree mode {{ mode }}"

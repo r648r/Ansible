@@ -1,0 +1,15 @@
+default_vlans:
+  - name: Transit-Lumen
+    id: 301
+  - name: Inet-IP-Directes
+    id: 1003
+  - name: Clients-Inet
+    id: 1101
+  - name: Clients-CGNAT
+    id: 1102
+  - name: IDSYS-Clients
+    id: 1300
+  - name: CGNAT-CHV
+    id: 1600
+  - name: CGNAT-CHV01
+    id: 1601

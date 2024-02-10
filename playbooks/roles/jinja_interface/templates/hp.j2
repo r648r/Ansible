@@ -1,0 +1,69 @@
+Running configuration:
+
+; J9147A Configuration Editor; Created on release #W.15.14.0014
+; Ver #06:04.18.63.ff.35.05:b6
+hostname "ProCurve-milliboo"
+module 1 type j9147a
+trunk 45-48 trk10 lacp
+no telnet-server
+ip default-gateway 10.100.40.1
+ip ssh filetransfer
+ip ssh port 5234
+{% for interface in interfaces %}
+interface {{ interface.name }}
+   {% if interface.description is defined %}
+   name "{{ interface.description }}"
+   {% endif %}
+   {% if interface.shutdown %}
+   shutdown
+   {% else %}
+   no shutdown
+   {% endif %}
+   {% if interface.mode == 'access' %}
+   mode access
+   allowed_vlans {{ interface.allowed_vlans }}
+   {% elif interface.mode == 'trunk' %}
+   mode trunk
+   allowed_vlans {{ interface.allowed_vlans }}
+   {% endif %}
+   exit
+{% endfor %}
+{% for port_channel in port_channels %}
+interface {{ port_channel.name }}
+   {% if port_channel.description is defined %}
+   name "{{ port_channel.description }}"
+   {% endif %}
+   {% for member in port_channel.members %}
+   member {{ member.member }}
+      speed {{ member.speed }}
+   exit
+   {% endfor %}
+{% endfor %}
+snmp-server community "public" unrestricted
+snmp-server community "Alpn74" operator
+snmp-server location "{{ snmp_location }}"
+aaa authentication ssh login public-key
+aaa authentication ssh enable public-key
+{% for vlan in vlans %}
+vlan {{ vlan.id }}
+   name "{{ vlan.name }}"
+   {% if vlan.untagged is defined %}
+   untagged {{ vlan.untagged }}
+   {% endif %}
+   {% if vlan.tagged is defined %}
+   tagged {{ vlan.tagged }}
+   {% endif %}
+   {% if vlan.ip_address is defined %}
+   ip address {{ vlan.ip_address }} 255.255.255.0
+   {% else %}
+   no ip address
+   {% endif %}
+   exit
+{% endfor %}
+spanning-tree Trk10 priority 4
+no tftp client
+no tftp server
+no autorun
+no dhcp config-file-update
+password manager
+password operator

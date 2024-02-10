@@ -1,0 +1,11 @@
+- "configure terminal"
+{% for interface in interfaces %}
+- "interface {{ interface.name }}"
+{% if interface.mode == 'trunk' %}
+- "switchport mode trunk"
+- "switchport trunk allowed vlan {{ interface.vlan }}"
+{% elif interface.mode == 'access' %}
+- "switchport mode access"
+- "switchport access vlan {{ interface.vlan }}"
+{% endif %}
+{% endfor %}

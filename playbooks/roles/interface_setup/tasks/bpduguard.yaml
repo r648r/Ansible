@@ -1,0 +1,23 @@
+---
+- name: Configure sur les interfaces en mode accès le BPDU Guard (NX OS)
+  when: interface.mode is defined and interface.mode == 'access' and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - spanning-tree bpduguard enable
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configure sur les interfaces en mode trunk le BPDU Filter (NX OS)
+  when: interface.bpdufilter is defined and interface.bpdufilter and interface.mode == 'trunk' and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - spanning-tree bpdufilter enable 
+      - no spanning-tree bpduguard enable
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface

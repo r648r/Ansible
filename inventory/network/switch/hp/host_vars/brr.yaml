@@ -1,0 +1,136 @@
+snmp_location: "Seynod, France"
+
+ansible_ssh_user: manager
+
+vlans:
+  - name: Management
+    id: 76
+  - name: ManagementMiliprod
+    id: 97
+  - name: MP-Prod-WAN
+    id: 11
+  - name: MP-Prod-Redis
+    id: 12
+  - name: MP-Preprod-Redis
+    id: 22
+
+interfaces:
+# ===============================
+  - name: Ethernet 1
+    description: "Management"
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 2
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 3
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 12
+    description: "brr"
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 13
+    description: ""
+    shutdown: false
+    mode: access
+    allowed_vlans: 11
+# ===============================
+  - name: Ethernet 14
+    description: "BKP-ETH2"
+    shutdown: false
+    mode: access
+    allowed_vlans: 11
+# ===============================
+  - name: Ethernet 15
+    description: "BKP-ETH3"
+    shutdown: false
+    mode: access
+    allowed_vlans: 11
+# ===============================
+  - name: Ethernet 176
+    description: "ciso ASR Tengig0/0/1"
+    shutdown: false
+    mode: access
+    allowed_vlans: 11
+# ===============================
+  - name: Ethernet 17
+    description: "cust: 1"
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 197
+    description: "SW-1"
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 24
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 33
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 34
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 40
+    description: "Lab: test"
+    shutdown: false
+    mode: access
+    allowed_vlans: 97
+# ===============================
+  - name: Ethernet 41
+    description: "Filer"
+    shutdown: false
+    mode: trunk
+    allowed_vlans: 97,12,22
+# ===============================
+  - name: Ethernet 42
+    description: "Filer"
+    shutdown: false
+    mode: access
+    allowed_vlans: 12
+# ===============================
+  - name: trk10
+    description: "Po-Vers-Dell"
+    shutdown: false
+    mode: trunk
+    allowed_vlans: 76,97,11,12,22
+
+port_channels:
+  - name: trk10
+    description: "Po-Vers-Dell"
+    members:
+      - member: Ethernet 45
+        speed: 100-full
+      - member: Ethernet 476
+        speed: 100-full
+      - member: Ethernet 47
+        speed: 100-full
+      - member: Ethernet 48
+        speed: 100-full
+
+vlans_interfaces:
+  - vlan: 97
+    ip: 10.32.32.10
+    netmask: 255.255.255.0
+# ===============================
+  - vlan: 76
+    ip: 10.76.76.37
+    netmask: 255.255.255.0

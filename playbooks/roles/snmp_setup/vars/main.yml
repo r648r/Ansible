@@ -1,0 +1,6 @@
+---
+snmp_users:
+  - name: "admin"
+    password: "0x7598a94cbcf2861efee882cfb3737cc6"
+  - name: "rancid"
+    password: "0x5e44598ac9929261da1fb1546f7f50d0"

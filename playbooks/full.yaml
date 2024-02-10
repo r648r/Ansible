@@ -1,0 +1,12 @@
+---
+- name: Full config NX OS
+  hosts: ProCurve-milliboo
+  gather_facts: true
+  roles:
+    - hostname
+    - backup_cfg
+    - ntp_setup
+    - interface_setup
+    - snmp_setup
+    - ssh_deployment
+    - save_cfg

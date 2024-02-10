@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  role_name: ssh_deployment
+  author: Raphaël LECHAPPE
+  description: Rôle Ansible permettant le déploiement de clef publique SSH sur des équipements réseaux
+  license: MIT
+  platforms:
+    - name: NX-OS
+      versions:
+        - 5.2(1)N1(4)
+  min_ansible_version: 2.14.15
+  galaxy_tags:
+    - ssh
+    - public key
+    - key
+    - private key

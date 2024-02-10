@@ -1,0 +1,14 @@
+---
+- name: Full config NX OS
+  hosts: all
+  gather_facts: False
+
+  roles:
+    - backup_cfg
+    - feature_setup
+    - spanning-tree_setup
+    - interface_setup
+    - snmp_setup
+    - qos_mtu_setup
+    - ssh_deployment
+    - save_cfg

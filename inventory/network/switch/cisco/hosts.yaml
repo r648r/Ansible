@@ -1,0 +1,7 @@
+---
+nxos:
+  hosts:
+    nx-1:
+      ansible_host: 10.66.66.36
+      ansible_connection: ansible.netcommon.network_cli
+

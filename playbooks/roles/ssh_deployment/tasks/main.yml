@@ -1,0 +1,12 @@
+---
+- include_tasks: retrieving_ansible_variables.yaml
+
+- include_tasks: disable_telnet.yaml
+
+- include_tasks: ssh_configuration.yaml
+
+- include_tasks: change_ssh_port.yaml
+
+- include_tasks: disable_password_authentification.yaml
+
+- include_tasks: check_if_private_key_work.yaml

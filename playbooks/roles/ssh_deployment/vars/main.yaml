@@ -1,0 +1,12 @@
+---
+ssh_users:
+  - username: raph
+    ssh_key: "{{ lookup('file', '~/.ssh/raph.pub') }}"
+  - username: corentin
+    ssh_key: "{{ lookup('file', '~/.ssh/corentin.pub') }}"
+  - username: antho
+    ssh_key: "{{ lookup('file', '~/.ssh/antho.pub') }}"
+  - username: brr
+    ssh_key: "{{ lookup('file', '~/.ssh/brr.pub') }}"
+
+ssh_port: 5234

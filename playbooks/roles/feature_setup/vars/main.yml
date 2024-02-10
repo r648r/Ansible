@@ -1,0 +1,7 @@
+---
+features_nxos:
+  enabled:
+    - scp-server
+    - lldp
+    - interface-vlan
+    - lacp

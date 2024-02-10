@@ -1,0 +1,5 @@
+---
+- hosts: ProCurve-milliboo
+  gather_facts: no
+  roles:
+    - ntp_setup

@@ -1,0 +1,12 @@
+---
+- name: Configuration de la politique réseau jumbo sur le switch
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - policy-map type network-qos jumbo
+      - class type network-qos class-default
+      - mtu 9216
+      - exit
+      - system qos
+      - service-policy type network-qos jumbo

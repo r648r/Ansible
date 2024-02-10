@@ -1,0 +1,7 @@
+---
+- name: Configure spanning-tree loopguard (NX-OS)
+  when: loopguard is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - spanning-tree loopguard default

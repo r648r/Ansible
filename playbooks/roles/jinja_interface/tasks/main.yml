@@ -1,0 +1,18 @@
+---
+- name: Generate Cisco interfaces commands
+  template:
+    src: "interface.j2"
+    dest: "/tmp/interface.conf"
+    mode: 0644
+
+- name: Print mosh version
+  debug: msg="{{ lookup('file', '/tmp/interface.conf') | from_yaml }}"
+
+- name: Read Cisco interfaces commands
+  set_fact:
+    commands: "{{ lookup('file', '/tmp/interface.conf') | from_yaml }}"
+
+- name: Execute Cisco interfaces commands
+  when: interfaces is defined and interfaces | length > 0 and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands: "{{ commands }}"

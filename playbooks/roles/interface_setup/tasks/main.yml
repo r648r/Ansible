@@ -1,0 +1,28 @@
+---
+- name: Les commandes que je ne sais pas exatement ou foutre (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - service unsupported-transceiver
+      - cli alias name wr copy run start
+
+- include_tasks: vlan_interface.yaml
+
+- include_tasks: port-channel.yaml
+
+- include_tasks: create_vlan.yaml
+
+- include_tasks: customer.yaml
+
+- include_tasks: layer_2.yaml
+
+- include_tasks: bpduguard.yaml
+
+- include_tasks: layer_3.yaml
+
+- include_tasks: speed.yaml
+
+- include_tasks: description.yaml
+
+- include_tasks: shutdown.yaml

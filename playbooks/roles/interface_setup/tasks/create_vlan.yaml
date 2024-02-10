@@ -1,0 +1,67 @@
+---
+# - name: Flush all VLANs (NX-OS)
+#   when: ansible_network_os == 'cisco.nxos.nxos'
+#   cisco.nxos.nxos_command: # impossible d'utilisé cisco.nxos.nxos_vlans show vlan | json % Invalid command at '^' marker. 
+#     commands:
+#     - configure terminal
+#     - no vlan 2-4093 # Obligatoire car sinon err si le vlan existe déjà : ERROR: VLAN with the same name exists
+#   ignore_errors: yes
+- name: NX OS
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  block:
+  - name: Create bonus VLANs (NX-OS)
+    when: vlans is defined
+    cisco.nxos.nxos_command: # impossible d'utilisé cisco.nxos.nxos_vlans show vlan | json % Invalid command at '^' marker. 
+      commands:
+      - configure terminal
+      - vlan {{ vlan.id }}
+      - name {{ vlan.name }}
+    ignore_errors: yes
+    loop: "{{ vlans }}"
+    loop_control:
+      loop_var: vlan
+
+  - name: Create all default VLANs (NX-OS)
+    when: default_vlans is defined
+    cisco.nxos.nxos_command: # impossible d'utilisé cisco.nxos.nxos_vlans show vlan | json % Invalid command at '^' marker. 
+      commands:
+      - configure terminal
+      - vlan {{ vlan.id }}
+      - name {{ vlan.name }}
+    ignore_errors: yes
+    loop: "{{ default_vlans }}"
+    loop_control:
+      loop_var: vlan
+
+- name: ProCurve 
+  when: ansible_network_os == 'hp.procurve'
+  block:
+  - name: Create default vlan (HP ProCurve)
+    when: default_vlans is defined
+    netmikli:
+      host: "{{ ansible_host }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      netmiko_device_type: hp_procurve
+
+      commands:
+        - vlan {{ vlan.id }}
+        - name {{ vlan.name }}
+    loop: "{{ default_vlans }}"
+    loop_control:
+      loop_var: vlan
+
+  - name: Create bonus vlan (HP ProCurve)
+    when: vlans is defined
+    netmikli:
+      host: "{{ ansible_host }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      netmiko_device_type: hp_procurve
+
+      commands:
+        - vlan {{ vlan.id }}
+        - name {{ vlan.name }}
+    loop: "{{ vlans }}"
+    loop_control:
+      loop_var: vlan

@@ -1,0 +1,54 @@
+---
+- name: Active l'interface (NX OS)
+  when: ansible_network_os == 'cisco.nxos.nxos' and not interface.shutdown|bool
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - no shutdown
+  loop: "{{ customers + interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Shutdown l'interface (NX OS)
+  when: ansible_network_os == 'cisco.nxos.nxos' and interface.shutdown|bool
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - shutdown
+  loop: "{{ customers + interfaces}}"
+  loop_control:
+    loop_var: interface
+
+- name: Active l'interface (HP ProCurve)
+  when: ansible_network_os == 'hp.procurve' and not interface.shutdown|bool
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: 
+      - interface {{ interface.name }}
+      - enable
+
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Shutdown l'interface (HP ProCurve)
+  when: ansible_network_os == 'hp.procurve' and interface.shutdown|bool
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: 
+      - interface {{ interface.name }}
+      - disable
+
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface

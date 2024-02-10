@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  role_name: feature_setup
+  author: Raphaël LECHAPPE
+  description: Feature configuration on Cisco NX-OS and service on HP ProCurve.
+  license: MIT
+  min_ansible_version: '2.9'
+  platforms:
+    - name: NX-OS
+      versions:
+        - 5.2(1)N1(4)
+  galaxy_tags:
+    - feature
+    - SCP
+    - LLDP
+    - LACP
+    - Telnet
+    - configuration
+    - cisco.nxos.nxos
+    - cisco
+    - hp
+    - NX-OS
+    - nx-os 

@@ -1,0 +1,7 @@
+---
+- name: Recuperation des variables ansible
+  setup:          
+  # Permet d'accédé a certaine varible ex : ansible_date_time
+    gather_subset:
+    - 'min'
+

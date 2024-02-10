@@ -1,0 +1,14 @@
+---
+- name: Check if the connection with private key work (HP ProCurve)
+  when: ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    port: "{{ ssh_port }}"
+    netmiko_device_type: hp_procurve  
+
+    privkeypath: "~/.ssh/brr"
+  register: result
+- debug:
+    var: result.msg 

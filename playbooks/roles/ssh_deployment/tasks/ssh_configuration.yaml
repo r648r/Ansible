@@ -1,0 +1,27 @@
+---
+- name: Configure SSH and add public key (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - username {{ item.username }} role network-admin
+      - username {{ item.username }} sshkey {{ item.ssh_key }}
+      - command: "username {{ item.username }} keypair generate rsa 2048 force"
+  
+  loop: "{{ ssh_users }}"
+  loop_control:
+    loop_var: item
+
+- name: Configure SSH using public key (HP ProCurve)
+  when: ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve  
+
+    HP_procurve_public_key_deployment: "{{ item.ssh_key }}"
+  
+  loop: "{{ ssh_users }}"
+  loop_control:
+    loop_var: item

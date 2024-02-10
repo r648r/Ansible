@@ -1,0 +1,8 @@
+---
+- include_tasks: location.yaml
+
+- include_tasks: users.yaml
+
+- include_tasks: community.yaml
+
+- include_tasks: logging.yaml

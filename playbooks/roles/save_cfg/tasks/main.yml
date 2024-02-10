@@ -1,0 +1,18 @@
+---
+- name: Save Configuration (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - copy running-config startup-config
+
+
+# - name: Setup SNMP community (HP ProCurve)
+#   when: ansible_network_os == 'hp.procurve'
+#   netmikli:
+#     host: "{{ ansible_host }}"
+#     username: "{{ ansible_ssh_user }}"
+#     password: "{{ ansible_ssh_pass }}"
+#     netmiko_device_type: hp_procurve
+
+#     commands:
+#       - write mem

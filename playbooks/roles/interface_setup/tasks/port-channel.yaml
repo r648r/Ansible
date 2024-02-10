@@ -1,0 +1,44 @@
+---
+- name: Delete Port-Channel (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.ios.ios_lag_interfaces:
+    config:
+    - name: "{{ port_channel.name }}"
+    state: deleted
+  loop: "{{ port_channels }}"
+  loop_control:
+    loop_var: port_channel
+
+- name: Configure Port-Channel (NX-OS)
+  when: ansible_network_os == 'cisco.nxos.nxos'
+  cisco.ios.ios_lag_interfaces:
+    config:
+    - name: "{{ port_channel.name }}"
+      members: "{{ port_channel.members }}"
+    state: replaced
+  loop: "{{ port_channels }}"
+  loop_control:
+    loop_var: port_channel
+
+- name: Generate Cisco interfaces commands
+  template:
+    src: "port_channels.j2"
+    dest: "/tmp/port_channels.conf"
+    mode: 0644
+
+# - name: Print mosh version
+#   debug: msg="{{ lookup('file', '/tmp/port_channels.conf') | from_yaml}}"
+
+- name: Read Cisco interfaces commands
+  set_fact:
+    commands: "{{ lookup('file', '/tmp/port_channels.conf') | from_yaml }}"
+
+- name: Execute Cisco interfaces commands
+  when: interfaces is defined and interfaces | length > 0 and ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands: "{{ commands }}"

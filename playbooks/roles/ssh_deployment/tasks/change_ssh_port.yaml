@@ -1,0 +1,15 @@
+---
+- name: Change SSH port
+  when: ansible_network_os == 'hp.procurve'
+  netmikli:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_ssh_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    netmiko_device_type: hp_procurve
+
+    commands:
+      - ip ssh port {{ ssh_port }}
+
+  register: result
+- debug:
+    var: result.msg 

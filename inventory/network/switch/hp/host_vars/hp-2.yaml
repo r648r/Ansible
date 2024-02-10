@@ -1,0 +1,27 @@
+snmp_location: "Astana, Kazakhstan"
+
+interfaces:
+# ===============================
+  - name: Ethernet 2
+    description: "Core: bar"
+    shutdown: false
+    mode: trunk
+    allowed_vlans: "30,40,50"
+# ===============================
+  - name: Ethernet 3
+    description: "Core: bar"
+    shutdown: true
+    mode: access
+    allowed_vlans: 20
+
+port_channels:
+# ===============================
+  - name: trk10
+    description: "Edge: fatal"
+    members:
+      - member: Ethernet 30
+        speed: 100-full
+      - member: Ethernet 32
+        speed: 100-full
+      - member: Ethernet 34
+        speed: 100-full

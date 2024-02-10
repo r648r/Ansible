@@ -1,0 +1,44 @@
+---
+- name: Delete interface configuration (NX-OS)
+  when: interface.ipv4 is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_l3_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+    state: deleted
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Disable switchport for doing layer 3 command (NX-OS)
+  when: interface.ipv4 is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_command:
+    commands:
+      - configure terminal
+      - "interface {{ interface.name }}"
+      - no switchport
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configure layer 3 setup (NX-OS)
+  when: interface.ipv4 is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_l3_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      ipv4:
+        - address: "{{ interface.ipv4 }}"
+    state: merged
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
+- name: Configure MTU for each interface (NX-OS)
+  when: interface.ipv4 is defined and interface.mtu is defined and ansible_network_os == 'cisco.nxos.nxos'
+  cisco.nxos.nxos_interfaces:
+    config:
+    - name: "{{ interface.name }}"
+      mtu: 9216
+    state: merged
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface

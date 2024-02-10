@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  role_name: feature_setup
+  author: Raphaël LECHAPPE
+  description: This Ansible role allows you to save the current configuration of a Cisco NX-OS or Cisco IOS network device to NVRAM.
+  license: MIT
+  min_ansible_version: '2.9'
+  platforms:
+    - name: NX-OS
+      versions:
+        - 5.2(1)N1(4)
+  galaxy_tags:
+    - save
+    - configuration
+    - cisco.nxos.nxos
+    - cisco
+    - NX-OS
+    - nx-os 

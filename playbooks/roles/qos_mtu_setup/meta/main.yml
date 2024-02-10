@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  role_name: feature_setup
+  author: Raphaël LECHAPPE
+  description: This role is responsible for the configuration of the network Quality of Service (QoS) settings and the setup of the jumbo MTU on the switch. This is mainly for the Cisco NXOS.
+  license: MIT
+  min_ansible_version: '2.9'
+  platforms:
+    - name: NX-OS
+      versions:
+        - 5.2(1)N1(4)
+  galaxy_tags:
+    - QOS
+    - mtu
+    - interface
+    - configuration
+    - cisco.nxos.nxos
+    - cisco
+    - hp
+    - NX-OS
+    - nx-os 

@@ -1,0 +1,46 @@
+# - name: NX-OS
+#   when: ansible_network_os == 'cisco.nxos.nxos'
+#   block:
+#     - name: Generate commands (NX-OS)
+#       template:
+#         src: "XXXXXXXXXX.j2"
+#         dest: "/tmp/YYYYYYYYYY.conf"
+#         mode: 0644
+
+#     - name: Debug commands (NX-OS)
+#       debug: msg="{{ lookup('file', '/tmp/YYYYYYYYYY.conf') | from_yaml }}"
+
+#     - name: Set commands to `commands` variable
+#       set_fact:
+#         commands: "{{ lookup('file', '/tmp/YYYYYYYYYY.conf') | from_yaml }}"
+
+#     - name: Execute commands (NX-OS)
+#       when: ZZZZZZZZZZZZZZZZ
+#       cisco.nxos.nxos_command:
+#         commands: "{{ commands }}"
+
+- name: ProCurve 
+  when: ansible_network_os == 'hp.procurve' and vlans_interfaces is defined
+  block:
+    - name: Generate commands (HP ProCurve)
+      template:
+        src: "vlan_interface.j2"
+        dest: "/tmp/vlan_interface.conf"
+        mode: 0644
+
+    - name: Debug commands (HP ProCurve)
+      debug: msg="{{ lookup('file', '/tmp/vlan_interface.conf') | from_yaml }}"
+
+    - name: Set commands to `commands` variable
+      set_fact:
+        commands: "{{ lookup('file', '/tmp/vlan_interface.conf') | from_yaml }}"
+
+    - name: Execute commands for VLAN interfaces setup (HP ProCurve)
+      netmikli:
+        host: "{{ ansible_host }}"
+        username: "{{ ansible_ssh_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        netmiko_device_type: hp_procurve
+        
+        commands: "{{ commands }}"
+

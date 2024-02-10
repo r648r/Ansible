@@ -1,0 +1,9 @@
+{% for channel in port_channels %}
+{% for member in channel.members %}
+- "interface {{ member.member }}"
+- "speed {{ member.speed }}"
+- "name {{ channel.description }}"
+- "exit"
+- "trunk {{ member.member }} {{ channel.name }} lacp"
+{% endfor %}
+{% endfor %}
